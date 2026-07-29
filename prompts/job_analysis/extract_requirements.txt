@@ -1,0 +1,8 @@
+{{> shared/output_format_json}}
+
+Analyze the following job description and extract structured requirements.
+
+Job description:
+{{job_description}}
+
+Return a JSON object with keys: "required_skills" (array of strings), "preferred_skills" (array of strings), "years_experience_min" (integer or null), "responsibilities" (array of strings).

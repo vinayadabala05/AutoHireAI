@@ -1,0 +1,8 @@
+{{> shared/persona}}
+
+Generate {{question_count}} likely interview questions for the "{{job_title}}" role at {{company_name}}, based on the job description below.
+
+Job description:
+{{job_description}}
+
+Return one question per line, no numbering.

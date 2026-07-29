@@ -1,0 +1,1 @@
+Respond with a single valid JSON object only. Do not include markdown code fences, explanations, or any text outside the JSON object.

@@ -1,0 +1,11 @@
+{{> shared/persona}}
+
+Explain the approach to the following technical interview problem clearly and concisely, as the candidate would in an interview.
+
+Problem:
+{{problem_statement}}
+
+Candidate's relevant experience:
+{{relevant_experience}}
+
+Return a plain-text explanation covering approach, complexity, and trade-offs.

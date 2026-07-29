@@ -1,0 +1,11 @@
+{{> shared/persona}}
+
+Rewrite the professional summary below to better align with the target job title "{{job_title}}", while staying strictly factual.
+
+Current summary:
+{{current_summary}}
+
+Target job description:
+{{job_description}}
+
+Return only the rewritten summary text, no preamble.

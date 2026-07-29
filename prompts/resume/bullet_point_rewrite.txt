@@ -1,0 +1,11 @@
+{{> shared/persona}}
+
+Rewrite the following resume bullet point to emphasize measurable impact and align with keywords from the target job, without inventing new facts.
+
+Original bullet:
+{{original_bullet}}
+
+Target job keywords:
+{{target_keywords}}
+
+Return only the rewritten bullet point text.

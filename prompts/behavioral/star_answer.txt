@@ -1,0 +1,11 @@
+{{> shared/persona}}
+
+Draft a STAR-format (Situation, Task, Action, Result) answer to the behavioral interview question below, using only facts from the candidate's background.
+
+Question:
+{{question}}
+
+Candidate background:
+{{career_summary}}
+
+Return the answer as plain text, structured in four short paragraphs labeled Situation, Task, Action, and Result.

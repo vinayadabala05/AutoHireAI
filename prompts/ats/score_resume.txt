@@ -1,0 +1,11 @@
+{{> shared/output_format_json}}
+
+Evaluate how well the resume text below would score in an Applicant Tracking System for the given job description.
+
+Resume text:
+{{resume_text}}
+
+Job description:
+{{job_description}}
+
+Return a JSON object with keys: "ats_score" (integer 0-100), "matched_keywords" (array of strings), "missing_keywords" (array of strings).

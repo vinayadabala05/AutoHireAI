@@ -1,0 +1,11 @@
+{{> shared/persona}}
+
+Write a concise, professional cover letter for {{full_name}} applying to the "{{job_title}}" role at {{company_name}}.
+
+Candidate background:
+{{career_summary}}
+
+Job description:
+{{job_description}}
+
+Return only the cover letter body text, three to four paragraphs, no salutation placeholders left unfilled.
