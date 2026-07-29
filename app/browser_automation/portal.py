@@ -26,7 +26,9 @@ from app.browser_automation.models import FormFieldType, PortalType
 _PORTAL_REGISTRY: dict[PortalType, type["PortalAdapter"]] = {}
 
 
-def register_portal(portal_type: PortalType) -> Callable[[type["PortalAdapter"]], type["PortalAdapter"]]:
+def register_portal(
+    portal_type: PortalType,
+) -> Callable[[type["PortalAdapter"]], type["PortalAdapter"]]:
     """Class decorator that registers a `PortalAdapter` subclass under `portal_type`."""
 
     def decorator(adapter_cls: type["PortalAdapter"]) -> type["PortalAdapter"]:
@@ -44,7 +46,9 @@ def get_portal_adapter(portal_type: PortalType) -> "PortalAdapter":
     try:
         return _PORTAL_REGISTRY[portal_type]()
     except KeyError as exc:
-        raise PortalNotSupportedError(f"No adapter registered for portal '{portal_type.value}'.") from exc
+        raise PortalNotSupportedError(
+            f"No adapter registered for portal '{portal_type.value}'."
+        ) from exc
 
 
 def available_portals() -> list[PortalType]:
@@ -106,6 +110,9 @@ class LinkedInEasyApplyAdapter(PortalAdapter):
         FormFieldType.VISA_SPONSORSHIP: "input[id*='requireVisa']",
         FormFieldType.NOTICE_PERIOD: "input[id*='noticePeriod']",
         FormFieldType.SALARY_EXPECTATION: "input[id*='salary']",
+        FormFieldType.RESUME_UPLOAD: "input[name='file']",
+        # LinkedIn Easy Apply has no separate cover-letter upload control —
+        # cover letters are typically pasted as free text or omitted.
     }
 
     @property
@@ -151,6 +158,8 @@ class GreenhouseAdapter(PortalAdapter):
         FormFieldType.VISA_SPONSORSHIP: "select[id*='visa_sponsorship']",
         FormFieldType.NOTICE_PERIOD: "input[id*='notice_period']",
         FormFieldType.SALARY_EXPECTATION: "input[id*='salary_expectation']",
+        FormFieldType.RESUME_UPLOAD: "input#resume",
+        FormFieldType.COVER_LETTER_UPLOAD: "input#cover_letter",
     }
 
     @property
@@ -194,6 +203,8 @@ class LeverAdapter(PortalAdapter):
         FormFieldType.VISA_SPONSORSHIP: "select[name*='visa']",
         FormFieldType.NOTICE_PERIOD: "input[name*='notice_period']",
         FormFieldType.SALARY_EXPECTATION: "input[name*='salary']",
+        FormFieldType.RESUME_UPLOAD: "input[name='resume']",
+        FormFieldType.COVER_LETTER_UPLOAD: "input[name='coverLetter']",
     }
 
     @property
@@ -237,6 +248,8 @@ class AshbyAdapter(PortalAdapter):
         FormFieldType.VISA_SPONSORSHIP: "input[name*='visaSponsorship']",
         FormFieldType.NOTICE_PERIOD: "input[name*='noticePeriod']",
         FormFieldType.SALARY_EXPECTATION: "input[name*='compensation']",
+        FormFieldType.RESUME_UPLOAD: "input[name='resume']",
+        FormFieldType.COVER_LETTER_UPLOAD: "input[name='coverLetter']",
     }
 
     @property

@@ -85,9 +85,11 @@ class FormFiller:
         info = profile.personal_info
         education_summary = (
             "; ".join(
-                f"{education.degree} in {education.field_of_study}, {education.institution}"
-                if education.field_of_study
-                else f"{education.degree}, {education.institution}"
+                (
+                    f"{education.degree} in {education.field_of_study}, {education.institution}"
+                    if education.field_of_study
+                    else f"{education.degree}, {education.institution}"
+                )
                 for education in profile.education
             )
             or None

@@ -59,7 +59,9 @@ class ApplicationExecutor:
                 "open_job_page",
             )
             await retry_action(
-                lambda: self._navigator.click_apply(page, adapter), self._retry_policy, "click_apply"
+                lambda: self._navigator.click_apply(page, adapter),
+                self._retry_policy,
+                "click_apply",
             )
 
             fill_result = await self._form_filler.fill(page, adapter, profile, options)

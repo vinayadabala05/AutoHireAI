@@ -47,7 +47,9 @@ class DocumentUploader:
     async def upload_cover_letter(
         self, page: Page, package: ApplicationPackage, selector: str
     ) -> UploadResult:
-        path = self._write_temp_file(f"{package.job_id}_cover_letter", package.cover_letter_markdown)
+        path = self._write_temp_file(
+            f"{package.job_id}_cover_letter", package.cover_letter_markdown
+        )
         return await self._upload(page, selector, path, FormFieldType.COVER_LETTER_UPLOAD)
 
     async def _upload(
