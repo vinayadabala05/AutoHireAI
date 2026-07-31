@@ -67,6 +67,7 @@ class FakePage:
         self.clicked: list[str] = []
         self.goto_calls: list[str] = []
         self.screenshot_calls: list[str] = []
+        self.closed = False
         self.raise_on_goto = False
         self.goto_fail_times = 0
         self.raise_on_click: set[str] = set()
@@ -103,6 +104,9 @@ class FakePage:
     async def wait_for_url(self, pattern: str, timeout: float = 0) -> None:
         if not self.wait_for_url_result:
             raise PlaywrightTimeoutError("wait_for_url timed out")
+
+    async def close(self) -> None:
+        self.closed = True
 
     async def screenshot(self, path: str) -> None:
         self.screenshot_calls.append(path)
