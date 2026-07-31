@@ -1,0 +1,80 @@
+# Production compose stack: the API (via deployment/Dockerfile, the
+# `deployment.startup:app` entrypoint) plus every service it depends on for
+# readiness (Postgres, Redis). Distinct from the project-root
+# `docker-compose.yml`, which runs the plain Sprint 1 dev/test entrypoint.
+#
+# Secrets (POSTGRES_PASSWORD, SECRET_KEY, ...) are read from a local `.env`
+# file (gitignored — see `.env.example` at the project root) and are never
+# baked into the image or this file.
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    container_name: autohire-api-prod
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    environment:
+      ENVIRONMENT: production
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+    volumes:
+      - ../logs:/srv/app/logs
+      - ../data:/srv/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health/ready"]
+      interval: 15s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+    networks:
+      - autohire-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: autohire-postgres-prod
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-autohire}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-autohire_ai}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-autohire}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - autohire-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: autohire-redis-prod
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - autohire-network
+
+networks:
+  autohire-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
